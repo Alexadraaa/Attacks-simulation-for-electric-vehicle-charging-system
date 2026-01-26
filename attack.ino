@@ -1,8 +1,17 @@
 /*attack circuit*/
 
+#include <temperature.h>
+#include <fakeLoad.h>
+#include <stateSwitching.h>
+
 
 void setup() {
-  Serial.begin(9600);
+pinMode(REALLOAD_PIN, OUTPUT);
+fakeLoadInit();
+tempInit();
+stateSwitchingInit();
+
+ Serial.begin(9600);
 
 }
 
