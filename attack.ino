@@ -11,12 +11,16 @@ const int STATE_C_MIN = 450;   // ~2.1–3.3 V
 const int STATE_E_MAX = 50;    // ~0 V
 
 //timing constants (in milliseconds)
-#define REALLOAD_TIME_MS       20      // ~1 PWM period
-#define FAKELOAD_TIME_MS       3000
-#define SS_TIME_MS             2000
-#define COOLDOWN_TIME_MS       1000
+#define REALLOAD_TIME_MS       1000     // ~1 PWM period
+#define FAKELOAD_TIME_MS       5000
+#define SS_TIME_MS             3000
 
-uint8_t attackTimer = 0;
+
+//globlal variables
+bool realLoad;
+bool fakeLoad;
+bool stateSwitching;
+unsigned long attackTimer = 0;
 
 void setup() {
 
@@ -53,7 +57,7 @@ void fakeLoadOnly(uint8_t dutyCycle) {
 }
 
 // State switching attack
-void stateSwitchingLoad() {
+void stateSwitchingOnly() {
   digitalWrite(REALLOAD_PIN, HIGH);   // M1 ON
   digitalWrite(FAKELOAD_PIN, LOW);    // M2 OFF
   digitalWrite(SS_PIN, HIGH);// M3 ON
@@ -61,6 +65,44 @@ void stateSwitchingLoad() {
 
 
 void loop() {
-realLoadOnly(); 
+
+ // Abort attack if charger leaves State C
+  if (!isStateC()) {
+  
+    realLoad = false;
+    fakeLoad = false;
+    stateSwitching = false;
+    
+    return;
+  }
+
+realLoad = true;
+attackTimer = millis();
+while (realLoad && millis() - attackTimer < REALLOAD_TIME_MS) {
+  realLoadOnly();
+  delay(5);
+}
+
+  fakeLoad = true;
+  attackTimer = millis();
+  while (fakeLoad && millis() - attackTimer < FAKELOAD_TIME_MS) {
+    fakeLoadOnly(128); // 50% duty cycle
+    delay(5);
+  }
+
+  stateSwitching = true;
+  attackTimer = millis();
+  while (stateSwitching && millis() - attackTimer < SS_TIME_MS) {
+    stateSwitchingOnly();
+    readTemperature();
+
+    if(!isTemperatureSafe()) {
+      //Serial.println("Temperature threshold exceeded!");
+      break;
+    }
+delay(5);
+
+}
+
 
 }
