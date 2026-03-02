@@ -4,7 +4,7 @@
 
 #include <stdint.h>
 #include <math.h>
-#include <pins.h>
+#include "pins.h"
 
 //intialize state switching
 void stateSwitchingInit() {

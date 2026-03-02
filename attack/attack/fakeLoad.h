@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 #include <math.h>
-#include <pins.h>
+#include "pins.h"
 
 //intialize fake load attack
 void fakeLoadInit() {

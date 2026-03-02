@@ -3,12 +3,12 @@
 
 #include <stdint.h>
 #include <math.h>
-#include <pins.h>
+#include "pins.h"
 
 #define TEMP_THRESHOLD_HIGH 60.0 // High temperature threshold in Celsius
 
 //for temperature tracking
-float currentTemp = 0.0;
+//float currentTemp = 0.0;
 float maxTempRecorded = 0.0;
 
 
@@ -20,11 +20,16 @@ void tempInit() {
 
 //Read temperature from sensor
 float readTemperature() {
-  int sensorValue = analogRead(TEMP_PIN);
+  float currentTemp = 0.0;
+ long sum = 0;
+  for (int i = 0; i < 10; i++) {
+    sum += analogRead(TEMP_PIN);
+    delay(2);
+  }
   // Convert the analog reading to voltage
-  float voltage = sensorValue * (5.0 / 1023.0);
+  float voltage = (sum / 10.0) * (5.0 / 1023.0);
   // Convert voltage to temperature in Celsius (assuming a 10mV/°C scale factor)
-  float temperatureC = voltage * 100.0;
+  float temperatureC = (voltage - 0.5) * 100.0;
   currentTemp = temperatureC;
 
   // Update max temperature recorded
@@ -36,8 +41,8 @@ float readTemperature() {
 }
 
 //check if temperature is safe
-bool isTemperatureSafe() {
-  return currentTemp < TEMP_THRESHOLD_HIGH;
+bool isTemperatureSafe(float temp) {
+  return temp < TEMP_THRESHOLD_HIGH;
 }
 
 
