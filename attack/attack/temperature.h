@@ -20,7 +20,7 @@ void tempInit() {
 
 //Read temperature from sensor
 float readTemperature() {
-  float currentTemp = 0.0;
+  float currentTemp ;
  long sum = 0;
   for (int i = 0; i < 10; i++) {
     sum += analogRead(TEMP_PIN);

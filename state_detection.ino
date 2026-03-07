@@ -3,9 +3,9 @@
 //pins
 const int pilotPin = A0;
 
-const int RED_PIN   = 9;
-const int GREEN_PIN = 10;
-const int BLUE_PIN  = 11;
+const int RED_PIN   = 11;
+const int GREEN_PIN = 9;
+const int BLUE_PIN  = 10;
 
 //values for thesholds
 const int STATE_A_MIN = 900;   // ~4.4–5.0 V
