@@ -17,9 +17,9 @@ const int STATE_E_MAX = 50;    // ~0 V
 
 
 //globlal variables
-bool realLoad;
-bool fakeLoad;
-bool stateSwitching;
+//bool realLoad;
+//bool fakeLoad;
+//bool stateSwitching;
 unsigned long attackTimer = 0;
 
 void setup() {
@@ -74,9 +74,13 @@ void loop() {
 
      Serial.println("Not connected to charger or not in State C. Aborting attack.");
   
-    realLoad = false;
+    /*realLoad = false;
     fakeLoad = false;
-    stateSwitching = false;
+    stateSwitching = false;*/
+
+    digitalWrite(REALLOAD_PIN, LOW);    // M1 OFF
+    digitalWrite(FAKELOAD_PIN, LOW);    // M2 OFF 
+    digitalWrite(SS_PIN, LOW);        // M3 OFF
     
     return;
   }
