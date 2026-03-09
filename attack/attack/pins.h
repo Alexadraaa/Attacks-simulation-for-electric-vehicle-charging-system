@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-const int STATE_DET_PIN = A2; // Pin for state detection input
+const int STATE_DET_PIN = A0; // Pin for state detection input
 
 const int TEMP_PIN = A1; // Pin for temperature sensor
 
@@ -17,3 +17,4 @@ const int SS_PIN = 3; // Pin for state switching mosfet control(M3)
 
 
 #endif
+
