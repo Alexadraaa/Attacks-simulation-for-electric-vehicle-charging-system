@@ -17,4 +17,3 @@ const int SS_PIN = 3; // Pin for state switching mosfet control(M3)
 
 
 #endif
-

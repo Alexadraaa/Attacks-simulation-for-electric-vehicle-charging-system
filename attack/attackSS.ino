@@ -17,7 +17,7 @@ const int STATE_E_MAX = 50;    // ~0 V
 
 //timing constants (in milliseconds)
 #define REALLOAD_TIME_MS       1000     // ~1 PWM period
-#define SS_TIME_MS             3000
+#define SS_TIME_MS             1000
 
 
 //globlal variables
@@ -29,12 +29,13 @@ void setup() {
 
 pinMode(STATE_DET_PIN, INPUT);  
 pinMode(REALLOAD_PIN, OUTPUT);
+digitalWrite(REALLOAD_PIN, LOW);
 //tempInit();
 stateSwitchingInit();
 
  Serial.begin(9600);
  Serial.println("System Initialized");
-
+attackTimer = millis();
 }
 
 //StateC detector
@@ -73,14 +74,22 @@ void loop() {
   delay(500);
     return;
   }
-  
-  attackTimer = millis();
+
+  Serial.println("IS State C - attacking");
 
    // keep EV load connected
   digitalWrite(REALLOAD_PIN, HIGH);
+  Serial.print("REALLOAD PIN state: ");
+  Serial.println(digitalRead(REALLOAD_PIN));
   
+  unsigned long elapsed = millis() - attackTimer;
+  Serial.print("Elapsed: "); Serial.println(elapsed);
 
-  if (millis() - attackTimer < SS_TIME_MS) {
+  if (elapsed>= SS_TIME_MS) {
+    Serial.print("millis: "); Serial.println(millis());
+    Serial.print("attackTimer: "); Serial.println(attackTimer);
+
+    attackTimer = millis();
 
     stateSwitching = !stateSwitching;
 

@@ -91,5 +91,5 @@ void loop(){
     digitalWrite(STATED_PIN, HIGH);
     digitalWrite(LED_D, HIGH);
     Serial.println("State D");*/
-    delay(2000);
+    delay(500);
 }
