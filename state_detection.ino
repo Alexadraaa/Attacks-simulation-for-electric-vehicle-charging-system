@@ -1,11 +1,14 @@
-/*Charger Simulation*/
+/*Charger simulation*/ 
+
 
 //pins
 const int pilotPin = A0;
+const int carStateDet = A1;
 
 const int RED_PIN   = 11;
-const int GREEN_PIN = 9;
-const int BLUE_PIN  = 10;
+const int GREEN_PIN = 10;
+const int BLUE_PIN  = 9;
+const int LED_C = 6;
 
 //values for thesholds
 const int STATE_A_MIN = 900;   // ~4.4–5.0 V
@@ -28,12 +31,14 @@ void setup() {
 void loop(){
     
   int adcValue = analogRead(pilotPin);
-  float voltage = adcValue * (5.0 / 1023.0);
+   float voltage = adcValue * (5.0 / 1023.0);
   Serial.print("  Voltage: ");
   Serial.println(voltage);
+  int CarValue = analogRead(carStateDet);
+  
 
   if (adcValue >= STATE_A_MIN) {
-    setColor(255, 120, 0); //stateA : orange
+    setColor(255, 165, 0); //stateA : orange
     Serial.println("State A");
 
   } else if (adcValue >= STATE_B_MIN) {
@@ -53,14 +58,15 @@ void loop(){
     Serial.println("State F");
   }
 
-
-
+delay(2000);
 }
+
 
 
 //helper function for color of rgb led
-void setColor(int red, int green, int blue) {
-  analogWrite(RED_PIN, red);
-  analogWrite(GREEN_PIN, green);
-  analogWrite(BLUE_PIN, blue);
-}
+  void setColor(int red, int green, int blue)
+  {
+    analogWrite(RED_PIN,red);
+    analogWrite(GREEN_PIN,green);
+    analogWrite(BLUE_PIN,blue);
+  }

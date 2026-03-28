@@ -79,8 +79,8 @@ void loop() {
 
    // keep EV load connected
   digitalWrite(REALLOAD_PIN, HIGH);
-  Serial.print("REALLOAD PIN state: ");
   Serial.println(digitalRead(REALLOAD_PIN));
+  Serial.print("REALLOAD PIN state: ");
   
   unsigned long elapsed = millis() - attackTimer;
   Serial.print("Elapsed: "); Serial.println(elapsed);

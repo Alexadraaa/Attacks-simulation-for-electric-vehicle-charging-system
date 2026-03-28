@@ -3,8 +3,8 @@
 //pins
 const int stateDetPin = A0;
 
-const int STATEC_PIN = 5;
-const int STATEB_PIN = 6;
+const int STATEC_PIN = 13;
+const int STATEB_PIN = 12;
 const int STATED_PIN = 3;
 const int LED_C = 11;
 const int LED_B = 10;
