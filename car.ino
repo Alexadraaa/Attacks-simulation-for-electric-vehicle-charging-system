@@ -23,20 +23,21 @@ void setup() {
   
   pinMode(STATEC_PIN, OUTPUT);
   pinMode(STATEB_PIN, OUTPUT);
-  pinMode(STATED_PIN, OUTPUT);
+ // pinMode(STATED_PIN, OUTPUT);
   pinMode(LED_C, OUTPUT);
   pinMode(LED_B, OUTPUT);
-  //pinMode(LED_D, OUTPUT);
+ // pinMode(LED_D, OUTPUT);
+    digitalWrite(LED_B, LOW);
+    digitalWrite(LED_C, LOW);
+  delay(400);
 
   Serial.begin(9600);
 }
 
 void loop(){
 
-    digitalWrite(LED_B, LOW);
-    digitalWrite(LED_C, LOW);
-    //digitalWrite(LED_D, LOW);
-
+  analogRead(stateDetPin);  // discard first reading
+delay(10); 
   int adcValue = analogRead(stateDetPin);
   float voltage = adcValue * (5.0 / 1023.0);
   Serial.print("  Voltage: ");
@@ -48,7 +49,7 @@ void loop(){
     //digitalWrite(STATED_PIN, LOW);
     digitalWrite(LED_B, LOW);
     digitalWrite(LED_C, LOW);
-    //digitalWrite(LED_D, LOW);
+   // digitalWrite(LED_D, LOW);
     Serial.println("State A");
 }
   else if(adcValue >= STATE_B_MIN) {
@@ -69,20 +70,20 @@ void loop(){
   else if (adcValue <= STATE_E_MAX) {
     digitalWrite(STATEC_PIN, LOW);
     digitalWrite(STATEB_PIN, LOW);
-    //digitalWrite(STATED_PIN, LOW);
+    digitalWrite(STATED_PIN, LOW);
     digitalWrite(LED_B, LOW);
     digitalWrite(LED_C, LOW);
-    //digitalWrite(LED_D, LOW);
+    digitalWrite(LED_D, LOW);
     Serial.println("State E");
     
   }
   else {
     digitalWrite(STATEC_PIN, LOW);
     digitalWrite(STATEB_PIN, LOW);
-    //digitalWrite(STATED_PIN, LOW);
+    digitalWrite(STATED_PIN, LOW);
     digitalWrite(LED_B, LOW);
     digitalWrite(LED_C, LOW);
-    //digitalWrite(LED_D, LOW);
+    digitalWrite(LED_D, LOW);
     Serial.println("State F");
   }
     /*else if (adcValue = STATE_D_MAX) {
@@ -90,6 +91,8 @@ void loop(){
     digitalWrite(STATEB_PIN, LOW);
     digitalWrite(STATED_PIN, HIGH);
     digitalWrite(LED_D, HIGH);
-    Serial.println("State D");*/
+    Serial.println("State D");
     delay(500);
+}*/
+  delay(100);
 }

@@ -1,6 +1,6 @@
 const int STATE_DET_PIN = A0; // Pin for state detection input
-const int REALLOAD_PIN = 7; // Pin for real load mosfet control(M1)
-const int SS_PIN = 13; // Pin for state switching mosfet control(M3)
+const int REALLOAD_PIN = 13; // Pin for real load mosfet control(M1)
+const int SS_PIN = 7; // Pin for state switching mosfet control(M3)
 
 //intialize state switching
 void stateSwitchingInit() {
@@ -17,7 +17,7 @@ const int STATE_E_MAX = 50;    // ~0 V
 
 //timing constants (in milliseconds)
 #define REALLOAD_TIME_MS       1000     // ~1 PWM period
-#define SS_TIME_MS             500
+#define SS_TIME_MS             200
 
 
 //globlal variables
@@ -35,6 +35,7 @@ stateSwitchingInit();
 
  Serial.begin(9600);
  Serial.println("System Initialized");
+  delay(400);
 attackTimer = millis();
 }
 
@@ -81,6 +82,7 @@ void loop() {
   digitalWrite(REALLOAD_PIN, LOW);
   Serial.print("REALLOAD PIN state: ");
   Serial.println(digitalRead(REALLOAD_PIN));
+   Serial.println(digitalRead(SS_PIN));
   
      unsigned long elapsed = millis() - attackTimer;
     Serial.print("Elapsed: "); Serial.println(elapsed);
@@ -110,5 +112,6 @@ void loop() {
   Serial.println(digitalRead(SS_PIN));
     }
   }
+  delay(100);
 }
 
