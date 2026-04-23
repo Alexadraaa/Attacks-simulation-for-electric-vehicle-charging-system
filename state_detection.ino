@@ -8,12 +8,12 @@ const int carStateDet = A1;
 const int RED_PIN   = 11;
 const int GREEN_PIN = 10;
 const int BLUE_PIN  = 9;
-const int LED_C = 6;
 
 //values for thesholds
 const int STATE_A_MIN = 900;   // ~4.4–5.0 V
 const int STATE_B_MIN = 700;   // ~3.3–4.4 V
 const int STATE_C_MIN = 450;   // ~2.1–3.3 V
+const int STATE_D_MIN = 200;   // ~0.98–2.1 V
 const int STATE_E_MAX = 50;    // ~0 V
 
 void setup() {
@@ -34,7 +34,6 @@ void loop(){
    float voltage = adcValue * (5.0 / 1023.0);
   Serial.print("  Voltage: ");
   Serial.println(voltage);
-  int CarValue = analogRead(carStateDet);
   
 
   if (adcValue >= STATE_A_MIN) {
@@ -48,8 +47,15 @@ void loop(){
   } else if (adcValue >= STATE_C_MIN) {
     setColor(0, 255, 0); //stateC : green
     Serial.println("State C");
+  }
+  
+    else if (adcValue >= STATE_D_MIN) {
+    setColor(255, 255, 0); //stateD : yellow
+    Serial.println("State D");
+  }
 
-  } else if (adcValue <= STATE_E_MAX) {
+
+  else if (adcValue <= STATE_E_MAX) {
     setColor(0, 0, 0); //stateE : off
     Serial.println("State E");
 
