@@ -11,8 +11,8 @@ const int BLUE_PIN  = 9;
 
 //values for thesholds
 const int STATE_A_MIN = 900;   // ~4.4–5.0 V
-const int STATE_B_MIN = 700;   // ~3.3–4.4 V
-const int STATE_C_MIN = 450;   // ~2.1–3.3 V
+const int STATE_B_MIN = 675;   // ~3.3–4.4 V
+const int STATE_C_MIN = 430;   // ~2.1–3.3 V
 const int STATE_D_MIN = 200;   // ~0.98–2.1 V
 const int STATE_E_MAX = 50;    // ~0 V
 
