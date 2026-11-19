@@ -104,26 +104,8 @@ void stateSwitchingOnly() {
 }
 
 void loop() {
-    // Abort attack if charger leaves State C
- /* if (!isStateC()) {
-
-     Serial.println("Not connected to charger or not in State C. Aborting attack.");
-  
-  digitalWrite(REALLOAD_PIN, LOW);    // M1 OFF
-  digitalWrite(SS_PIN, LOW);    // M3 OFF
-    
-  delay(500);
-    return;
-  }
-
-  Serial.println("IS State C - attacking");*/
-
    // keep EV load connected
-  digitalWrite(REALLOAD_PIN, LOW);
-  Serial.print("REALLOAD PIN state: ");
-  Serial.println(digitalRead(REALLOAD_PIN));
-  Serial.print("SS PIN state: ");
-  Serial.println(digitalRead(SS_PIN));
+ digitalWrite(REALLOAD_PIN, LOW);
   
      unsigned long elapsed = millis() - attackTimer;
     Serial.print("Elapsed: "); Serial.println(elapsed);
